@@ -18,7 +18,7 @@ function main() {
 
   function setEventListeners(inputs, outputs, buttons) {
     detectKeyPress(inputs, buttons);
-    placeEventListenersOnButtons(buttons, outputs);
+    placeEventListenersOnButtons(inputs, outputs, buttons);
   }
 
   function captureInputs() {
@@ -60,17 +60,60 @@ function main() {
     });
   }
 
-  function placeEventListenersOnButtons(buttons, outputs) {
-    buttons[0].addEventListener("click", convertToDecimal(outputs[0]));
-    buttons[1].addEventListener("click", convertToBinary(outputs[1]));
+  function placeEventListenersOnButtons(inputs, outputs, buttons) {
+    addListenerOnBinaryToDecimalButton();
+    addListenerOnDecimalToBinaryButton();
   }
 
-  function convertToDecimal(binaryToDecimalOutput) {
-
+  function addListenerOnBinaryToDecimalButton() {
+    binaryDecimalButton.addEventListener("click", ((event) => {
+      const reversedBinary = reverseString(binaryDecimalInput.value);
+      let num = 0;
+      for (let i = 0; i <= reversedBinary.length - 1; i++) {
+        if (reversedBinary[i] != "1" && reversedBinary[i] != "0") {
+          binaryDecimalOutput.innerText = "That's no binary!";
+          return console.log("That's no binary!");
+        }
+        // The following is done to respect the "single mathematical function" condition for calculating the value of
+        // a binary digit. By multiplicating the exponential by either 1 or 0 depending on the value of the binary
+        // digit, you essentially ignore "0" values.
+        num += parseInt(reversedBinary[i]) * (2 ** i);
+      }
+      binaryDecimalOutput.innerText = num;
+    }));
   }
 
-  function convertToBinary(decimalToBinaryOutput) {
+  function reverseString(string) {
+    let reversedString = "";
+    for (let i = string.length - 1; i >= 0; i--) {
+      reversedString += string[i];
+    }
+    return reversedString;
+  }
 
+  function addListenerOnDecimalToBinaryButton() {
+    decimalBinaryButton.addEventListener("click", ((event) => {
+      let decimalValue = parseInt(decimalBinaryInput.value);
+      // Il faut toujours au moins 1 bit.
+      let binDigits = 1;
+      // Cette boucle n'est lancée qu'à partir d'une valeur décimale de 2. A chaque fois qu'un pallier est atteint (une
+      // puissance de 2), un nouveau bit est "débloqué". Si le décimal entré est 31, par exemple, la boucle ne sera pas
+      // relancée à 2 ** 5 = 32, et le nombre de digits sera bloqué à 1 + 4 boucles = 5. Mais pour une valeur de 32,
+      // l'égalité avec 2 ** 5 relancera la boucle et débloquera le bit suivant.
+      for (let i = 1; 2 ** i <= decimalValue; i++) {
+        binDigits += 1;
+      }
+      let binaryString = "";
+      for (let i = binDigits; i > 0; i--) {
+        if (decimalValue >= 2 ** (i - 1)) {
+          binaryString += "1";
+          decimalValue -= 2 ** (i - 1);
+        } else {
+          binaryString += "0";
+        }
+      }
+      decimalBinaryOutput.innerText = binaryString;
+    }));
   }
 
   const [binaryDecimalInput, decimalBinaryInput, binaryDecimalOutput, decimalBinaryOutput, binaryDecimalButton, decimalBinaryButton] = captureElements();
