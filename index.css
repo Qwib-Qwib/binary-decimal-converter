@@ -1,0 +1,65 @@
+body {
+  background: linear-gradient(0.25turn, #111111 48%, #455e2d 49.5%, #99D063 50%, #455e2d 50.5%, #111111 52%);
+  color: #fcbd56;
+}
+
+body.animate {
+  animation: 0.8s linear 0s infinite running flareup;
+}
+
+.binary-scroll {
+  overflow: hidden;
+  animation: 4.5s linear 0s infinite running slidein;
+  font-family: 'Encode Sans', sans-serif;
+  font-size: 2em;
+  color: #37e370;
+}
+
+@keyframes slidein {
+  0% {
+    margin-left: 0%;
+  }
+
+  45% {
+    color: #37e370;
+  }
+
+  49% {
+    color: #99D063;
+  }
+
+  51% {
+    color: #fcbd56;
+  }
+
+  100% {
+    margin-left: 100%;
+    color: #fcbd56;
+  }
+}
+
+@keyframes flareup {
+  0% {
+    background: linear-gradient(0.25turn, #111111 48%, #455e2d 49.5%, #99D063 50%, #455e2d 50.5%, #111111 52%);
+  }
+
+  50% {
+    background: linear-gradient(0.25turn, #111111 48%, #6d914b 49.5%, #b1e280 50%, #6d914b 50.5%, #111111 52%);
+  }
+
+  75% {
+    background: linear-gradient(0.25turn, #111111 48%, #455e2d 49.5%, #99D063 50%, #455e2d 50.5%, #111111 52%);
+  }
+
+  82% {
+    background: linear-gradient(0.25turn, #111111 48%, #6d914b 49.5%, #b1e280 50%, #6d914b 50.5%, #111111 52%);
+  }
+
+  90% {
+    background: linear-gradient(0.25turn, #111111 48%, #455e2d 49.5%, #99D063 50%, #455e2d 50.5%, #111111 52%);
+  }
+
+  100% {
+    background: linear-gradient(0.25turn, #111111 48%, #6d914b 49.5%, #b1e280 50%, #6d914b 50.5%, #111111 52%);
+  }
+}

@@ -1,5 +1,5 @@
 function main() {
-  function captureElements() {
+  function captureConverterElements() {
     const [binaryDecimalInput, decimalBinaryInput] = captureInputs();
     const [binaryDecimalOutput, decimalBinaryOutput] = captureOutputs();
     const [binaryDecimalButton, decimalBinaryButton] = captureButtons();
@@ -16,7 +16,7 @@ function main() {
     decimalBinaryButton.setAttribute("disabled", "");
   }
 
-  function setEventListeners(inputs, outputs, buttons) {
+  function setEventListenersOnConverter(inputs, outputs, buttons) {
     detectKeyPress(inputs, buttons);
     placeEventListenersOnButtons(inputs, outputs, buttons);
   }
@@ -116,10 +116,24 @@ function main() {
     }));
   }
 
-  const [binaryDecimalInput, decimalBinaryInput, binaryDecimalOutput, decimalBinaryOutput, binaryDecimalButton, decimalBinaryButton] = captureElements();
+  const [binaryDecimalInput, decimalBinaryInput, binaryDecimalOutput, decimalBinaryOutput, binaryDecimalButton, decimalBinaryButton] = captureConverterElements();
   resetInputs(binaryDecimalInput, decimalBinaryInput);
   resetButtons(binaryDecimalButton, decimalBinaryButton);
-  setEventListeners([binaryDecimalInput, decimalBinaryInput], [binaryDecimalOutput, decimalBinaryOutput], [binaryDecimalButton, decimalBinaryButton]);
+  setEventListenersOnConverter([binaryDecimalInput, decimalBinaryInput], [binaryDecimalOutput, decimalBinaryOutput], [binaryDecimalButton, decimalBinaryButton]);
+
+  const scrollingElements = document.querySelectorAll(".binary-scroll");
+  // let style = window.getComputedStyle(scrollingElements[0]);
+  // let width = parseInt(style.getPropertyValue('width').slice(0, -2));
+
+  // if (width < 1000) {
+  //   scrollingElements[0].innerText = "LOL";
+  // }
+  document.addEventListener("animationstart", ((event) => {
+    if (event.animationName == "slidein") {
+      setTimeout(() => {  scrollingElements[0].innerText = "LOL"; }, 2250);
+      setTimeout(() => {  scrollingElements[0].innerText = "011101"; }, 5000);
+    }
+  }));
 }
 
 main();

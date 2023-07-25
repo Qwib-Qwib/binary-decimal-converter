@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Binary/Decimal Converter</title>
-  <meta charset="UTF-8"/>
-  <script type="text/javascript" src="index.js" defer></script>
-</head>
-<body>
-  <h1>Binary/Decimals Converter</h1>
-  <p>Write your binary here to convert it to decimals:</p>
-  <input type="text" name="binary-to-decimal" id="binary-to-decimal">
-  <button class="btd-convert" disabled>Convert!</button>
-  <p class="btd-result"></p>
-  <p>You can also write decimals here to convert them into binary:</p>
-  <input type="text" name="decimal-to-binary" id="decimal-to-binary">
-  <button class="dtb-convert" disabled>Convert!</button>
-  <p class="dtb-result"></p>
-</body>
+  <head>
+    <title>Binary/Decimal Converter</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="index.css">
+    <script type="text/javascript" src="index.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Encode+Sans:wght@700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="binary-scroll">0111010</div>
+    <h1>Binary/Decimals Converter</h1>
+    <p>Write your binary here to convert it to decimals:</p>
+    <input type="text" name="binary-to-decimal" id="binary-to-decimal">
+    <button class="btd-convert" disabled>Convert!</button>
+    <p class="btd-result"></p>
+    <p>You can also write decimals here to convert them into binary:</p>
+    <input type="text" name="decimal-to-binary" id="decimal-to-binary">
+    <button class="dtb-convert" disabled>Convert!</button>
+    <p class="dtb-result"></p>
+  </body>
 </html>
