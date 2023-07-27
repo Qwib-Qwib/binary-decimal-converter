@@ -121,19 +121,29 @@ function main() {
   resetButtons(binaryDecimalButton, decimalBinaryButton);
   setEventListenersOnConverter([binaryDecimalInput, decimalBinaryInput], [binaryDecimalOutput, decimalBinaryOutput], [binaryDecimalButton, decimalBinaryButton]);
 
-  const scrollingElements = document.querySelectorAll(".binary-scroll");
-  // let style = window.getComputedStyle(scrollingElements[0]);
-  // let width = parseInt(style.getPropertyValue('width').slice(0, -2));
+  const scrollingElements = document.querySelectorAll(".scrolling-code");
 
-  // if (width < 1000) {
-  //   scrollingElements[0].innerText = "LOL";
-  // }
   document.addEventListener("animationstart", ((event) => {
     if (event.animationName == "slidein") {
-      setTimeout(() => {  scrollingElements[0].innerText = "LOL"; }, 2250);
-      setTimeout(() => {  scrollingElements[0].innerText = "011101"; }, 5000);
+      setTimeout(() => replaceChars(scrollingElements[0]), 2250);
     }
   }));
+
+  document.addEventListener("animationiteration", ((event) => {
+    if (event.animationName == "slidein") {
+      scrollingElements[0].children[0].innerText = "011101";
+      scrollingElements[0].children[1].innerText = "";
+      setTimeout(() => replaceChars(scrollingElements[0]), 2250);
+    }
+  }));
+
+  async function replaceChars(element) {
+    while (element.children[0].innerText != "") {
+      element.children[0].innerText = element.children[0].innerText.slice(0, -1);
+      element.children[1].innerText += 8;
+      await new Promise(r => setTimeout(r, 100));
+    }
+  }
 }
 
 main();

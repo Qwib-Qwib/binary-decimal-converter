@@ -7,12 +7,19 @@ body.animate {
   animation: 0.8s linear 0s infinite running flareup;
 }
 
-.binary-scroll {
+.scrolling-code {
   overflow: hidden;
   animation: 4.5s linear 0s infinite running slidein;
   font-family: 'Encode Sans', sans-serif;
   font-size: 2em;
+}
+
+.scrolling-binary {
   color: #37e370;
+}
+
+.scrolling-decimal {
+  color: #fcbd56;
 }
 
 @keyframes slidein {
