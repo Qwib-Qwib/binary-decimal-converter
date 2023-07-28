@@ -116,34 +116,37 @@ function main() {
     }));
   }
 
+  function animateBackground() {
+    const scrollingElements = document.querySelectorAll(".scrolling-code");
+
+    document.addEventListener("animationstart", ((event) => {
+      if (event.animationName == "slidein") {
+        setTimeout(() => replaceChars(event.target), 2000);
+      }
+    }));
+
+    document.addEventListener("animationiteration", ((event) => {
+      if (event.animationName == "slidein") {
+        event.target.children[0].innerText = "011101";
+        event.target.children[1].innerText = "";
+        setTimeout(() => replaceChars(event.target), 2000);
+      }
+    }));
+
+    async function replaceChars(element) {
+      while (element.children[0].innerText != "") {
+        element.children[0].innerText = element.children[0].innerText.slice(0, -1);
+        element.children[1].innerText += 8;
+        await new Promise(r => setTimeout(r, 50));
+      }
+    }
+  }
+
   const [binaryDecimalInput, decimalBinaryInput, binaryDecimalOutput, decimalBinaryOutput, binaryDecimalButton, decimalBinaryButton] = captureConverterElements();
   resetInputs(binaryDecimalInput, decimalBinaryInput);
   resetButtons(binaryDecimalButton, decimalBinaryButton);
   setEventListenersOnConverter([binaryDecimalInput, decimalBinaryInput], [binaryDecimalOutput, decimalBinaryOutput], [binaryDecimalButton, decimalBinaryButton]);
-
-  const scrollingElements = document.querySelectorAll(".scrolling-code");
-
-  document.addEventListener("animationstart", ((event) => {
-    if (event.animationName == "slidein") {
-      setTimeout(() => replaceChars(scrollingElements[0]), 2250);
-    }
-  }));
-
-  document.addEventListener("animationiteration", ((event) => {
-    if (event.animationName == "slidein") {
-      scrollingElements[0].children[0].innerText = "011101";
-      scrollingElements[0].children[1].innerText = "";
-      setTimeout(() => replaceChars(scrollingElements[0]), 2250);
-    }
-  }));
-
-  async function replaceChars(element) {
-    while (element.children[0].innerText != "") {
-      element.children[0].innerText = element.children[0].innerText.slice(0, -1);
-      element.children[1].innerText += 8;
-      await new Promise(r => setTimeout(r, 100));
-    }
-  }
+  animateBackground();
 }
 
 main();
