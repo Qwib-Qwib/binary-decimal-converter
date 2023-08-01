@@ -117,19 +117,19 @@ function main() {
   }
 
   function animateBackground() {
-    const scrollingElements = document.querySelectorAll(".scrolling-code");
-
     document.addEventListener("animationstart", ((event) => {
       if (event.animationName == "slidein") {
-        setTimeout(() => replaceChars(event.target), 2000);
+        setTimeout(() => replaceChars(event.target), 2200);
+        setTimeout(() => triggerLaserAnimation(), 2200);
       }
     }));
 
     document.addEventListener("animationiteration", ((event) => {
       if (event.animationName == "slidein") {
-        event.target.children[0].innerText = "011101";
+        event.target.children[0].innerText = "111010";
         event.target.children[1].innerText = "";
-        setTimeout(() => replaceChars(event.target), 2000);
+        setTimeout(() => replaceChars(event.target), 2200);
+        setTimeout(() => triggerLaserAnimation(), 2200);
       }
     }));
 
@@ -139,6 +139,15 @@ function main() {
         element.children[1].innerText += 8;
         await new Promise(r => setTimeout(r, 50));
       }
+    }
+
+    function triggerLaserAnimation() {
+      document.body.classList.add("animate");
+      setTimeout(() => stopLaserAnimation(), 500);
+    }
+
+    function stopLaserAnimation() {
+      document.body.classList.remove("animate");
     }
   }
 
