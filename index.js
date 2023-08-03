@@ -121,6 +121,7 @@ function main() {
       if (event.animationName == "slidein") {
         setTimeout(() => replaceChars(event.target), 2200);
         setTimeout(() => triggerLaserAnimation(), 2200);
+        setTimeout(() => generateSparks(event.target), 2200);
       }
     }));
 
@@ -130,6 +131,7 @@ function main() {
         event.target.children[1].innerText = "";
         setTimeout(() => replaceChars(event.target), 2200);
         setTimeout(() => triggerLaserAnimation(), 2200);
+        setTimeout(() => generateSparks(event.target), 2200);
       }
     }));
 
@@ -148,6 +150,57 @@ function main() {
 
     function stopLaserAnimation() {
       document.body.classList.remove("animate");
+    }
+
+    function generateSparks(emitter) {
+      // Loop to generate 30 particles at once
+      for (let i = 0; i < 30; i++) {
+        // We pass the mouse coordinates to the createParticle() function
+        createSpark(emitter.offsetTop);
+      }
+    }
+
+    function createSpark(y) {
+      // Create a custom particle element
+      const spark = document.createElement('spark');
+      // Append the element into the body
+      document.body.appendChild(spark);
+      // Calculate a random spark thickness from 1px to 5px
+      const thickness = Math.floor(Math.random() * 3 + 1);
+      const length = thickness * 5;
+      // Apply the size on each particle
+      spark.style.width = `${length}px`;
+      spark.style.height = `${thickness}px`;
+      // Generate a random color in a light yellow palette
+      spark.style.background = `hsl(47, 100%, ${Math.random() * 20 + 70}%)`;
+      // Generate a random x & y destination within a distance of the impact point. The distance is the last part of
+      // the equation (currently 50px for y, for example).
+      const destinationX = spark.style.left + (Math.random() - 0.5) * 2 * (window.screen.width / 3);
+      const destinationY = y + (Math.random() - 0.5) * 2 * 50;
+      // Store the animation in a variable because we will need it later
+      const animation = spark.animate([
+        {
+          // Set the origin position of the particle
+          // We offset the particle with half its size to center it around the mouse
+          transform: `translate(${spark.style.left - (length / 2)}px, ${y - (thickness / 2)}px)`,
+          opacity: 1
+        },
+        {
+          // We define the final coordinates as the second keyframe
+          transform: `translate(${destinationX}px, ${destinationY}px)`,
+          opacity: 0
+        }
+      ], {
+        // Set a random duration from 500 to 1500ms
+        duration: 500 + Math.random() * 1000,
+        easing: 'cubic-bezier(0, .9, .57, 1)',
+        // Delay every particle with a random value from 0ms to 200ms
+        delay: Math.random() * 200
+      });
+      // When the animation is finished, remove the element from the DOM
+      animation.onfinish = () => {
+        spark.remove();
+      };
     }
   }
 

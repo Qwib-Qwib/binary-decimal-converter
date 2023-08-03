@@ -60,9 +60,14 @@ h1 {
 .scrolling-code {
   overflow: hidden;
   z-index: 1;
+  /* La ligne suivante permet de faire démarrer l'animation en dehors de l'écran, plutôt que de "spawner" le code */
+  /* directement à gauche. */
   margin-left: -10%;
   font-family: 'Encode Sans', sans-serif;
-  font-size: 4em;
+  font-size: 2em;
+  /* Vu que les lignes de code sont des divs de texte, la ligne suivante permet d'empêcher l'utilisateur d'interagir */
+  /* avec elles par la souris. */
+  pointer-events: none;
 }
 
 #string-one {
@@ -107,12 +112,26 @@ h1 {
   animation: 4.5s linear 0s infinite running slidein;
 }
 
+.scrolling-binary, .scrolling-decimal {
+  font-style: italic;
+}
+
 .scrolling-binary {
   color: #37e370;
 }
 
 .scrolling-decimal {
   color: #fcbd56;
+}
+
+spark {
+  left: 50vw;
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  /* L'opacité de 0 pemet de ne pas faire apparaître les étincelles en haut de l'écran juste avant qu'elles soient */
+  /* déplacées au vrai point de collision. Elle est changée en cours d'animation par le JS. */
+  opacity: 0;
 }
 
 @keyframes slidein {
