@@ -173,27 +173,52 @@ function main() {
       spark.style.height = `${thickness}px`;
       // Generate a random color in a light yellow palette
       spark.style.background = `hsl(47, 100%, ${Math.random() * 20 + 70}%)`;
-      // Generate a random x & y destination within a distance of the impact point. The distance is the last part of
-      // the equation (currently 50px for y, for example).
-      const destinationX = spark.style.left + (Math.random() - 0.5) * 2 * (window.screen.width / 3);
+      // Generate a random x & y destination within a distance of the impact point. The random bit is used to specify a
+      // side to the direction of the spark. The distance is the last part of the equation. The whole equation is used
+      // as a basis to determine how far the sparks go each frame.
+      const destinationX = spark.style.left + (Math.random() - 0.5) * 2 * (window.screen.width / 5);
+      const frame2X = destinationX * 1.20;
+      const frame3X = frame2X * 1.15;
+      const frame4X = frame3X * 1.15;
+      const frame5X = frame4X * 1.15;
       const destinationY = y + (Math.random() - 0.5) * 2 * 50;
-      // Store the animation in a variable because we will need it later
+      const frame2Y = destinationY + 50;
+      const frame3Y = frame2Y + 60;
+      const frame4Y = frame3Y + 100;
+      const frame5Y = frame4Y + 120;
+      const frame2angle = Math.atan(frame2Y / frame2X) * 180;
+      const frame3angle = Math.atan(frame3Y / frame3X) * 180;
+      const frame4angle = Math.atan(frame4Y / frame4X) * 180;
+      const frame5angle = Math.atan(frame5Y / frame5X) * 180;
+      // Store the animation in a variable because we will need it later to destroy the element when the anim stops.
       const animation = spark.animate([
         {
           // Set the origin position of the particle
-          // We offset the particle with half its size to center it around the mouse
+          // We offset the particle with half its size to center it around the laser
           transform: `translate(${spark.style.left - (length / 2)}px, ${y - (thickness / 2)}px)`,
           opacity: 1
         },
         {
-          // We define the final coordinates as the second keyframe
-          transform: `translate(${destinationX}px, ${destinationY}px)`,
-          opacity: 0
+          // We define the arc of the animation with a series of transform frames.
+          transform: `translate(${frame2X}px, ${frame2Y}px)) rotate(${frame2angle}deg`,
+          opacity: 1
+        },
+        {
+          transform: `translate(${frame3X}px, ${frame3Y}px) rotate(${frame3angle - frame2angle}deg`,
+          opacity: 1
+        },
+        {
+          transform: `translate(${frame4X}px, ${frame4Y}px) rotate(${frame4angle - frame3angle}deg`,
+          opacity: 1
+        },
+        {
+          transform: `translate(${frame5X}px, ${frame5Y}px) rotate(${frame5angle - frame4angle}deg`,
+          opacity: 1
         }
       ], {
-        // Set a random duration from 500 to 1500ms
-        duration: 500 + Math.random() * 1000,
-        easing: 'cubic-bezier(0, .9, .57, 1)',
+        // Set a random duration from 300 to 750ms. The first number is the minimum duration, the sum of both numbers
+        // is the maximum.
+        duration: 300 + Math.random() * 450,
         // Delay every particle with a random value from 0ms to 200ms
         delay: Math.random() * 200
       });
