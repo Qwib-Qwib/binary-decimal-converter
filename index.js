@@ -175,44 +175,52 @@ function main() {
       spark.style.background = `hsl(47, 100%, ${Math.random() * 20 + 70}%)`;
       // Generate a random x & y destination within a distance of the impact point. The random bit is used to specify a
       // side to the direction of the spark. The distance is the last part of the equation. The whole equation is used
-      // as a basis to determine how far the sparks go each frame.
-      const destinationX = spark.style.left + (Math.random() - 0.5) * 2 * (window.screen.width / 5);
-      const frame2X = destinationX * 1.20;
-      const frame3X = frame2X * 1.15;
-      const frame4X = frame3X * 1.15;
-      const frame5X = frame4X * 1.15;
-      const destinationY = y + (Math.random() - 0.5) * 2 * 50;
-      const frame2Y = destinationY + 50;
-      const frame3Y = frame2Y + 60;
-      const frame4Y = frame3Y + 100;
-      const frame5Y = frame4Y + 120;
-      const frame2angle = Math.atan(frame2Y / frame2X) * 180;
-      const frame3angle = Math.atan(frame3Y / frame3X) * 180;
-      const frame4angle = Math.atan(frame4Y / frame4X) * 180;
-      const frame5angle = Math.atan(frame5Y / frame5X) * 180;
+      // as a basis to determine how far the sparks go each frame. Normally, a translate property reads offsets of the
+      // original position, but we have to reference the height y and the previous offsets every time because
+      // otherwise the offset will aply to the spark ORIGINAL position at the top of the screen.
+      const frame2X = ((Math.random() - 0.5) * 100) + (Math.random() - 0.5) * 2 * (window.screen.width / 6);
+      const frame3X = frame2X * 1.30;
+      const frame4X = frame3X * 1.25;
+      const frame5X = frame4X * 1.20;
+      const frame6X = frame5X * 1.10;
+      const frame2Y = y + (Math.random() - 0.5) * 2 * (window.screen.height / 10);
+      const frame3Y = frame2Y + 20;
+      const frame4Y = frame3Y + 60;
+      const frame5Y = frame4Y + 100;
+      const frame6Y = frame5Y + 120;
+      const frame2angle = Math.atan((frame2Y - y) / (frame2X - (window.screen.width / 2))) * 180;
+      const frame3angle = Math.atan((frame3Y - y) / (frame3X - (window.screen.width / 2))) * 180;
+      const frame4angle = Math.atan((frame4Y - y) / (frame4X - (window.screen.width / 2))) * 180;
+      const frame5angle = Math.atan((frame5Y - y) / (frame5X - (window.screen.width / 2))) * 180;
+      const frame6angle = Math.atan((frame6Y - y) / (frame6X - (window.screen.width / 2))) * 180;
       // Store the animation in a variable because we will need it later to destroy the element when the anim stops.
       const animation = spark.animate([
         {
           // Set the origin position of the particle
+          // Sparks x offset is automatically set by the CSS, it's always the same.
           // We offset the particle with half its size to center it around the laser
-          transform: `translate(${spark.style.left - (length / 2)}px, ${y - (thickness / 2)}px)`,
+          transform: `translate(${length / 2}px, ${y - (thickness / 2)}px) rotate(${frame2angle}deg)`,
           opacity: 1
         },
         {
           // We define the arc of the animation with a series of transform frames.
-          transform: `translate(${frame2X}px, ${frame2Y}px)) rotate(${frame2angle}deg`,
+          transform: `translate(${frame2X}px, ${frame2Y}px) rotate(${frame3angle}deg)`,
           opacity: 1
         },
         {
-          transform: `translate(${frame3X}px, ${frame3Y}px) rotate(${frame3angle - frame2angle}deg`,
+          transform: `translate(${frame3X}px, ${frame3Y}px) rotate(${frame4angle}deg)`,
           opacity: 1
         },
         {
-          transform: `translate(${frame4X}px, ${frame4Y}px) rotate(${frame4angle - frame3angle}deg`,
+          transform: `translate(${frame4X}px, ${frame4Y}px) rotate(${frame5angle}deg)`,
           opacity: 1
         },
         {
-          transform: `translate(${frame5X}px, ${frame5Y}px) rotate(${frame5angle - frame4angle}deg`,
+          transform: `translate(${frame5X}px, ${frame5Y}px) rotate(${frame6angle}deg)`,
+          opacity: 1
+        },
+        {
+          transform: `translate(${frame6X}px, ${frame6Y}px) rotate(${frame6angle}deg)`,
           opacity: 1
         }
       ], {
