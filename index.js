@@ -173,26 +173,32 @@ function main() {
       spark.style.height = `${thickness}px`;
       // Generate a random color in a light yellow palette
       spark.style.background = `hsl(47, 100%, ${Math.random() * 20 + 70}%)`;
-      // Generate a random x & y destination within a distance of the impact point. The random bit is used to specify a
-      // side to the direction of the spark. The distance is the last part of the equation. The whole equation is used
-      // as a basis to determine how far the sparks go each frame. Normally, a translate property reads offsets of the
-      // original position, but we have to reference the height y and the previous offsets every time because
-      // otherwise the offset will aply to the spark ORIGINAL position at the top of the screen.
-      const frame2X = ((Math.random() - 0.5) * 100) + (Math.random() - 0.5) * 2 * (window.screen.width / 6);
-      const frame3X = frame2X * 1.30;
-      const frame4X = frame3X * 1.25;
+      // Generate a set of random x and y destinations for each frame.
+      // The impulseX bit is used to specify a side to the direction of the spark. The max distance is the multiplier.
+      // The minImpulseX determines the minimum distance.
+      const impulseX = (Math.random() - 0.5) * 2 * (window.screen.width / 6);
+      const minImpulseX = Math.sign(impulseX) * 80;
+      const frame2X = minImpulseX + impulseX;
+      const frame3X = frame2X * 1.40;
+      const frame4X = frame3X * 1.35;
       const frame5X = frame4X * 1.20;
       const frame6X = frame5X * 1.10;
-      const frame2Y = y + (Math.random() - 0.5) * 2 * (window.screen.height / 10);
+      // Normally, a translate property takes offsets of the original position, but we have to reference the height y
+      // and the previous offsets every time to calculate y destinations because otherwise the offset will aply to the
+      // spark's ORIGINAL position at the top of the screen.
+      const frame2Y = y + (Math.random() - 0.5) * 2 * (window.screen.height / 12);
       const frame3Y = frame2Y + 20;
-      const frame4Y = frame3Y + 60;
-      const frame5Y = frame4Y + 100;
-      const frame6Y = frame5Y + 120;
-      const frame2angle = Math.atan((frame2Y - y) / (frame2X - (window.screen.width / 2))) * 180;
-      const frame3angle = Math.atan((frame3Y - y) / (frame3X - (window.screen.width / 2))) * 180;
-      const frame4angle = Math.atan((frame4Y - y) / (frame4X - (window.screen.width / 2))) * 180;
-      const frame5angle = Math.atan((frame5Y - y) / (frame5X - (window.screen.width / 2))) * 180;
-      const frame6angle = Math.atan((frame6Y - y) / (frame6X - (window.screen.width / 2))) * 180;
+      const frame4Y = frame3Y + 40;
+      const frame5Y = frame4Y + 70;
+      const frame6Y = frame5Y + 90;
+      // The rotate values, however, seem to apply to the position at the previous frame rather than the original
+      // position of the element, so all the previous values are removed so that the sparks don't start spinning as
+      // they go.
+      const frame2angle = Math.atan((frame2Y - y) / frame2X) * 180;
+      const frame3angle = Math.atan((frame3Y - frame2Y) / frame3X) * 180 - frame2angle;
+      const frame4angle = Math.atan((frame4Y - frame3Y) / frame4X) * 180 - (frame2angle + frame3angle);
+      const frame5angle = Math.atan((frame5Y - frame4Y) / frame5X) * 180 - (frame2angle + frame3angle + frame4angle);
+      const frame6angle = Math.atan((frame6Y - frame5Y) / frame6X) * 180 - (frame2angle + frame3angle + frame4angle + frame5angle);
       // Store the animation in a variable because we will need it later to destroy the element when the anim stops.
       const animation = spark.animate([
         {
@@ -220,7 +226,7 @@ function main() {
           opacity: 1
         },
         {
-          transform: `translate(${frame6X}px, ${frame6Y}px) rotate(${frame6angle}deg)`,
+          transform: `translate(${frame6X}px, ${frame6Y}px) rotate(${frame6angle + (Math.sign(frame6angle) * 75)}deg)`,
           opacity: 1
         }
       ], {
