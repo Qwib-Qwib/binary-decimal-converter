@@ -155,15 +155,16 @@ function main() {
     function generateSparks(emitter) {
       // Loop to generate 30 particles at once
       for (let i = 0; i < 30; i++) {
-        // We pass the mouse coordinates to the createParticle() function
+        // We pass the emitter Y offset to the createParticle() function.
         createSpark(emitter.offsetTop);
       }
     }
 
     function createSpark(y) {
-      // Create a custom particle element
+      // Creates a custom particle element. The "y" argument is the emitter's offset from the top of the screen, and is
+      // used later to translate the spark to its proper place and recalculate the rotation angle each frame.
       const spark = document.createElement('spark');
-      // Append the element into the body
+      // Appends the element into the body. Right now, it's not at its proper place, its at the top of the screen.
       document.body.appendChild(spark);
       // Calculate a random spark thickness from 1px to 5px
       const thickness = Math.floor(Math.random() * 3 + 1);
@@ -173,9 +174,11 @@ function main() {
       spark.style.height = `${thickness}px`;
       // Generate a random color in a light yellow palette
       spark.style.background = `hsl(47, 100%, ${Math.random() * 20 + 70}%)`;
-      // Generate a set of random x and y destinations for each frame.
-      // The impulseX bit is used to specify a side to the direction of the spark. The max distance is the multiplier.
-      // The minImpulseX determines the minimum distance.
+      // The following generates the position of a spark over several frames.
+      // The impulseX bit is used to specify a side and initial emission force for the spark on the X axis. The max
+      // distance is the last multiplier.
+      // The minImpulseX determines the minimum projection distance. Here it's 80px, applied in the same direction as
+      // the previously calculated impulseX.
       const impulseX = (Math.random() - 0.5) * 2 * (window.screen.width / 6);
       const minImpulseX = Math.sign(impulseX) * 80;
       const frame2X = minImpulseX + impulseX;
@@ -183,27 +186,33 @@ function main() {
       const frame4X = frame3X * 1.35;
       const frame5X = frame4X * 1.20;
       const frame6X = frame5X * 1.10;
-      // Normally, a translate property takes offsets of the original position, but we have to reference the height y
-      // and the previous offsets every time to calculate y destinations because otherwise the offset will aply to the
-      // spark's ORIGINAL position at the top of the screen.
+      // A translate property takes offsets of the original position. Here, the original (x; y) position for a spark is
+      // (screen / 2; 0), because a spark is always emitted from the horizontal halfway point of the screen, but its
+      // Y position varies depending on which "scrolling code" element emits it.
+      // Therefore, the previously calculated impulse X is immediately useable as an offset, but in order to properly
+      // place the spark on the Y axis, we have to first translate it to the level of the emitter, then take into
+      // account this offset for all further translations and rotations.
       const frame2Y = y + (Math.random() - 0.5) * 2 * (window.screen.height / 12);
       const frame3Y = frame2Y + 20;
       const frame4Y = frame3Y + 40;
       const frame5Y = frame4Y + 70;
       const frame6Y = frame5Y + 90;
-      // The rotate values, however, seem to apply to the position at the previous frame rather than the original
-      // position of the element, so all the previous values are removed so that the sparks don't start spinning as
-      // they go.
+      // The rotate values are also applied according to the original position of the element. For each frame, we
+      // recalculate the angle of the element by redrawing a rectangle triangle to each new point from the scrolling
+      // code emitter element.
       const frame2angle = Math.atan((frame2Y - y) / frame2X) * 180;
-      const frame3angle = Math.atan((frame3Y - frame2Y) / frame3X) * 180 - frame2angle;
-      const frame4angle = Math.atan((frame4Y - frame3Y) / frame4X) * 180 - (frame2angle + frame3angle);
-      const frame5angle = Math.atan((frame5Y - frame4Y) / frame5X) * 180 - (frame2angle + frame3angle + frame4angle);
-      const frame6angle = Math.atan((frame6Y - frame5Y) / frame6X) * 180 - (frame2angle + frame3angle + frame4angle + frame5angle);
+      const frame3angle = Math.atan((frame3Y - y) / frame3X) * 180 - frame2angle;
+      const frame4angle = Math.atan((frame4Y - y) / frame4X) * 180 - (frame2angle + frame3angle);
+      const frame5angle = Math.atan((frame5Y - y) / frame5X) * 180 - (frame2angle + frame3angle + frame4angle);
+      const frame6angle = Math.atan((frame6Y - y) / frame6X) * 180 - (frame2angle + frame3angle + frame4angle + frame5angle);
       // Store the animation in a variable because we will need it later to destroy the element when the anim stops.
       const animation = spark.animate([
         {
-          // Set the origin position of the particle
-          // Sparks x offset is automatically set by the CSS, it's always the same.
+          // Sets the origin position of the particle.
+          // The original x position is automatically set by the CSS, it's always the same: the horizontal halfway point.
+          // However, the y offset changes with every possible scrolling code emitter, so the spark is translated from
+          // the top to its emission point here. The implication is that the actual origin point used as a reference
+          // for all the translations and rotations is at the top of the screen.
           // We offset the particle with half its size to center it around the laser
           transform: `translate(${length / 2}px, ${y - (thickness / 2)}px) rotate(${frame2angle}deg)`,
           opacity: 1
@@ -226,7 +235,7 @@ function main() {
           opacity: 1
         },
         {
-          transform: `translate(${frame6X}px, ${frame6Y}px) rotate(${frame6angle + (Math.sign(frame6angle) * 75)}deg)`,
+          transform: `translate(${frame6X}px, ${frame6Y}px) rotate(${Math.sign(frame6angle) * 90}deg)`,
           opacity: 1
         }
       ], {
