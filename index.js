@@ -143,13 +143,46 @@ function main() {
       }
     }
 
-    function triggerLaserAnimation() {
-      document.body.classList.add("animate");
-      setTimeout(() => stopLaserAnimation(), 500);
-    }
+    // function triggerLaserAnimation() {
+    //   document.body.classList.add("animate");
+    //   setTimeout(() => stopLaserAnimation(), 500);
+    // }
 
-    function stopLaserAnimation() {
-      document.body.classList.remove("animate");
+    // function stopLaserAnimation() {
+    //   document.body.classList.remove("animate");
+    // }
+
+    function triggerLaserAnimation() {
+      const animation = document.body.animate([
+        {
+          background: 'linear-gradient(0.25turn, #111111 48%, #455e2d 49.5%, #99D063 50%, #455e2d 50.5%, #111111 52%)',
+          offset: 0
+        },
+        {
+          background: 'linear-gradient(0.25turn, #111111 48%, #6d914b 49.5%, #b1e280 50%, #6d914b 50.5%, #111111 52%)',
+          offset: 0.5
+        },
+        {
+          background: 'linear-gradient(0.25turn, #111111 48%, #455e2d 49.5%, #99D063 50%, #455e2d 50.5%, #111111 52%)',
+          offset: 0.75
+        },
+        {
+          background: 'linear-gradient(0.25turn, #111111 48%, #6d914b 49.5%, #b1e280 50%, #6d914b 50.5%, #111111 52%)',
+          offset: 0.82
+        },
+        {
+          background: 'linear-gradient(0.25turn, #111111 48%, #455e2d 49.5%, #99D063 50%, #455e2d 50.5%, #111111 52%)',
+          offset: 0.90
+        },
+        {
+          background: 'linear-gradient(0.25turn, #111111 48%, #6d914b 49.5%, #b1e280 50%, #6d914b 50.5%, #111111 52%)',
+          offset: 1
+        }
+      ], {
+        duration: 500,
+        delay: 0
+      });
+      animation.play();
     }
 
     function generateSparks(emitter) {
@@ -201,10 +234,10 @@ function main() {
       // recalculate the angle of the element by redrawing a rectangle triangle to each new point from the scrolling
       // code emitter element.
       const frame2angle = Math.atan((frame2Y - y) / frame2X) * 180;
-      const frame3angle = Math.atan((frame3Y - y) / frame3X) * 180 - frame2angle;
-      const frame4angle = Math.atan((frame4Y - y) / frame4X) * 180 - (frame2angle + frame3angle);
-      const frame5angle = Math.atan((frame5Y - y) / frame5X) * 180 - (frame2angle + frame3angle + frame4angle);
-      const frame6angle = Math.atan((frame6Y - y) / frame6X) * 180 - (frame2angle + frame3angle + frame4angle + frame5angle);
+      const frame3angle = Math.atan((frame3Y - y) / frame3X) * 180;
+      const frame4angle = Math.atan((frame4Y - y) / frame4X) * 180;
+      const frame5angle = Math.atan((frame5Y - y) / frame5X) * 180;
+      const frame6angle = Math.atan((frame6Y - y) / frame6X) * 180;
       // Store the animation in a variable because we will need it later to destroy the element when the anim stops.
       const animation = spark.animate([
         {
@@ -235,7 +268,7 @@ function main() {
           opacity: 1
         },
         {
-          transform: `translate(${frame6X}px, ${frame6Y}px) rotate(${Math.sign(frame6angle) * 90}deg)`,
+          transform: `translate(${frame6X}px, ${frame6Y}px) rotate(${frame6angle}deg)`,
           opacity: 1
         }
       ], {
