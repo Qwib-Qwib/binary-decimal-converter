@@ -143,15 +143,6 @@ function main() {
       }
     }
 
-    // function triggerLaserAnimation() {
-    //   document.body.classList.add("animate");
-    //   setTimeout(() => stopLaserAnimation(), 500);
-    // }
-
-    // function stopLaserAnimation() {
-    //   document.body.classList.remove("animate");
-    // }
-
     function triggerLaserAnimation() {
       const animation = document.body.animate([
         {
