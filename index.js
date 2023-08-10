@@ -117,6 +117,7 @@ function main() {
   }
 
   function animateBackground() {
+    setScrollingCodeInitialValues();
     document.addEventListener("animationstart", ((event) => {
       if (event.animationName == "slidein") {
         setTimeout(() => replaceChars(event.target), 2200);
@@ -127,7 +128,7 @@ function main() {
 
     document.addEventListener("animationiteration", ((event) => {
       if (event.animationName == "slidein") {
-        event.target.children[0].innerText = "111010";
+        setScrollingCodeNewValue(event.target.children[0]);
         event.target.children[1].innerText = "";
         setTimeout(() => replaceChars(event.target), 2200);
         setTimeout(() => triggerLaserAnimation(), 2200);
@@ -136,9 +137,20 @@ function main() {
     }));
 
     async function replaceChars(element) {
+      // Ce passage jusqu'à num = num.toString(); est une variante du convertisseur dans addListenerOnBinaryToDecimalButton().
+      // Ca serait bien de transformer un peu l'original pour pouvoir le rappeler au lieu de réécrire une partie du code ici.
+      const reversedBinary = reverseString(element.children[0].innerText);
+      let num = 0;
+      for (let i = 0; i <= reversedBinary.length - 1; i++) {
+        num += parseInt(reversedBinary[i]) * (2 ** i);
+      }
+      num = num.toString();
       while (element.children[0].innerText != "") {
         element.children[0].innerText = element.children[0].innerText.slice(0, -1);
-        element.children[1].innerText += 8;
+        if (num != "") {
+          element.children[1].innerText = num[num.length - 1] + element.children[1].innerText;
+          num = num.slice(0, -1);
+        }
         await new Promise(r => setTimeout(r, 50));
       }
     }
@@ -274,6 +286,21 @@ function main() {
         spark.remove();
       };
     }
+  }
+
+  function setScrollingCodeInitialValues() {
+    const scrollingCodesList = document.querySelectorAll(".scrolling-binary");
+    scrollingCodesList.forEach((binaryFragment) => {
+      setScrollingCodeNewValue(binaryFragment);
+    })
+  }
+
+  function setScrollingCodeNewValue(scrollingCode) {
+    let binaryValue = "";
+    for(let i = 0; i < 7; i++) {
+      binaryValue += Math.round(Math.random());
+    }
+    scrollingCode.innerText = binaryValue;
   }
 
   const [binaryDecimalInput, decimalBinaryInput, binaryDecimalOutput, decimalBinaryOutput, binaryDecimalButton, decimalBinaryButton] = captureConverterElements();
