@@ -236,11 +236,11 @@ function main() {
       // The rotate values are also applied according to the original position of the element. For each frame, we
       // recalculate the angle of the element by redrawing a rectangle triangle to each new point from the scrolling
       // code emitter element.
-      const frame2angle = Math.atan((frame2Y - y) / frame2X) * 180;
-      const frame3angle = Math.atan((frame3Y - y) / frame3X) * 180;
-      const frame4angle = Math.atan((frame4Y - y) / frame4X) * 180;
-      const frame5angle = Math.atan((frame5Y - y) / frame5X) * 180;
-      const frame6angle = Math.atan((frame6Y - y) / frame6X) * 180;
+      const frame2angle = Math.atan((frame2Y - y) / frame2X) * (180 / Math.PI);
+      const frame3angle = Math.atan((frame3Y - y) / frame3X) * (180 / Math.PI);
+      const frame4angle = Math.atan((frame4Y - y) / frame4X) * (180 / Math.PI);
+      const frame5angle = Math.atan((frame5Y - y) / frame5X) * (180 / Math.PI);
+      const frame6angle = Math.atan((frame6Y - y) / frame6X) * (180 / Math.PI);
       // Store the animation in a variable because we will need it later to destroy the element when the anim stops.
       const animation = spark.animate([
         {
@@ -271,7 +271,7 @@ function main() {
           opacity: 1
         },
         {
-          transform: `translate(${frame6X}px, ${frame6Y}px) rotate(${frame6angle}deg)`,
+          transform: `translate(${frame6X}px, ${frame6Y}px) rotate(${frame6angle + (Math.sign(frame6angle) * 25)}deg)`,
           opacity: 1
         }
       ], {
