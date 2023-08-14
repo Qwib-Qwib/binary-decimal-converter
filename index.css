@@ -5,6 +5,15 @@ body {
   color: #fcbd56;
 }
 
+/* The following is necessary for mobile devices and responsive design. The viewport metatag apparently ignores
+overflow values on html and body elements, so a website wrapper has to be created with such a value. Even the
+position: relative part is necessary. */
+.website-wrapper {
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
 .flex-wrapper {
   height: 100%;
   display: flex;
@@ -20,6 +29,9 @@ body {
 .content {
   /* Setting a position other than sticky is required to activate z-index on the element. */
   position: relative;
+  /* Since the heading has been displaced, the entire container has to be moved too to compensate and recenter the
+  converter. */
+  bottom: calc(1.5em / 2);
   z-index: 2;
   display: flex;
   flex-direction: column;
@@ -41,6 +53,28 @@ h1 {
   border: 3px solid #fcbd56;
   padding: 8px;
   background-color: rgba(113, 85, 41, 0.7);
+}
+
+.button-wrapper {
+  position: relative;
+}
+
+.chamfered-corner {
+  position: absolute;
+  background-color: white;
+}
+
+button {
+  font-family: 'Teko', sans-serif;
+  background-color: rgba(175, 132, 61, 0.5);
+  border: 3px solid #fcbd56;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+button:disabled {
+  font-family: 'Teko', sans-serif;
+  color: #cec9c1;
 }
 
 .result-wrapper {
