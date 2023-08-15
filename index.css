@@ -56,25 +56,46 @@ h1 {
 }
 
 .button-wrapper {
+  display: inline-block;
   position: relative;
 }
 
 .chamfered-corner {
   position: absolute;
-  background-color: white;
+  height: calc(40% + 2px);
+  width: 3px;
+  transform: rotate(49deg);
+  background-color: #fcbd56;
+  /* For some reason the top-left corner seems to be transparent without the following line, even though its
+  background color is set to be solid. */
+  z-index: 3;
+}
+
+.top-left {
+  bottom: 58%;
+  right: 89%;
+}
+
+.bottom-right {
+  left: 90%;
+  top: 57%;
 }
 
 button {
   font-family: 'Teko', sans-serif;
   background-color: rgba(175, 132, 61, 0.5);
   border: 3px solid #fcbd56;
-  padding-left: 8px;
-  padding-right: 8px;
+  font-size: 25px;
+  line-height: 100%;
+  padding: 0 8px;
+  -webkit-clip-path: polygon(15% 0, 0 30%, 0 100%, 85% 100%, 100% 70%, 100% 0);
+  clip-path: polygon(15% 0, 0 30%, 0 100%, 85% 100%, 100% 70%, 100% 0);
 }
 
 button:disabled {
-  font-family: 'Teko', sans-serif;
-  color: #cec9c1;
+  color: #767676;
+  background-color: rgba(96, 89, 76, 0.5);
+  border: 3px solid #767676;
 }
 
 .result-wrapper {

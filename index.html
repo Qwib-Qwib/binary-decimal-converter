@@ -14,13 +14,13 @@
     <!-- The following div is important for responsive design. Apparently, the viewport metatag ignores overflow values
     on the html and body elements, so they have to be applied to a wrapper for the entire site. -->
     <div class="website-wrapper">
-      <div id="string-one" class="scrolling-code"><span class="scrolling-binary">111010</span><span class="scrolling-decimal"></span></div>
-      <div id="string-two" class="scrolling-code"><span class="scrolling-binary">111010</span><span class="scrolling-decimal"></span></div>
-      <div id="string-three" class="scrolling-code"><span class="scrolling-binary">111010</span><span class="scrolling-decimal"></span></div>
-      <div id="string-four" class="scrolling-code"><span class="scrolling-binary">111010</span><span class="scrolling-decimal"></span></div>
-      <div id="string-five" class="scrolling-code"><span class="scrolling-binary">111010</span><span class="scrolling-decimal"></span></div>
-      <div id="string-six" class="scrolling-code"><span class="scrolling-binary">111010</span><span class="scrolling-decimal"></span></div>
-      <div id="string-seven" class="scrolling-code"><span class="scrolling-binary">111010</span><span class="scrolling-decimal"></span></div>
+      <div id="string-one" class="scrolling-code"><span class="scrolling-binary"></span><span class="scrolling-decimal"></span></div>
+      <div id="string-two" class="scrolling-code"><span class="scrolling-binary"></span><span class="scrolling-decimal"></span></div>
+      <div id="string-three" class="scrolling-code"><span class="scrolling-binary"></span><span class="scrolling-decimal"></span></div>
+      <div id="string-four" class="scrolling-code"><span class="scrolling-binary"></span><span class="scrolling-decimal"></span></div>
+      <div id="string-five" class="scrolling-code"><span class="scrolling-binary"></span><span class="scrolling-decimal"></span></div>
+      <div id="string-six" class="scrolling-code"><span class="scrolling-binary"></span><span class="scrolling-decimal"></span></div>
+      <div id="string-seven" class="scrolling-code"><span class="scrolling-binary"></span><span class="scrolling-decimal"></span></div>
       <div class="flex-wrapper">
         <div class="content">
           <div class="h1-wrapper">
@@ -30,11 +30,11 @@
             <div class="binary-decimal-wrapper converter">
               <p>Write your binary here to convert it to decimals:</p>
               <input type="text" name="binary-to-decimal" id="binary-to-decimal">
-              <span class="button-wrapper">
+              <div class="button-wrapper">
                 <div class="chamfered-corner top-left"></div>
                 <button class="btd-convert" disabled>Convert</button>
                 <div class="chamfered-corner bottom-right"></div>
-              </span>
+              </div>
               <div class="result-wrapper">
                 <p class="btd-result"></p>
               </div>
@@ -42,7 +42,11 @@
             <div class="decimal-binary-wrapper converter">
               <p>You can also write decimals here to convert them into binary:</p>
               <input type="text" name="decimal-to-binary" id="decimal-to-binary">
-              <button class="dtb-convert" disabled>Convert</button>
+              <div class="button-wrapper">
+                <div class="chamfered-corner top-left"></div>
+                <button class="dtb-convert" disabled>Convert</button>
+                <div class="chamfered-corner bottom-right"></div>
+              </div>
               <div class="result-wrapper">
                 <p class="dtb-result"></p>
               </div>

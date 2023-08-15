@@ -1,5 +1,5 @@
 # Binary / Decimal Converter
-It was initially supposed to be a simple single-page converter, though I took the opportunity to do a little bit of front-end and try something creative. In that case, I experimented a bit with animations and generating particles.
+It was initially supposed to be a simple single-page converter, though I took the opportunity to do a little bit of front-end and try something creative. In that case, I experimented a bit with animations, clip-paths and generating particles.
 
 The background is done entirely in HTML, CSS and JavaScript with no frameworks or external libraries. The basis is a gradient coloring forming a laser-like background, and several divs of binary numbers floating left to right and being converted to decimal as they go through the laser. The laser itself flashes whenever a div passes through, and sparks are generated whenever a number is removed of added to the div.
 
