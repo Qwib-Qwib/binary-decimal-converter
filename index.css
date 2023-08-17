@@ -2,6 +2,8 @@
   --main-bg-gradient: linear-gradient(0.25turn, #111111 48%, #455e2d 49.5%, #99D063 50%, #455e2d 50.5%, #111111 52%);
   --title-bg-color: #715529;
   --main-accent-color: #fcbd56;
+  --activated-button-bg-color: rgba(131, 98, 46, 0.5);
+  --activated-button-accent-color: #c79341;
   --disabled-button-bg-color: rgba(96, 89, 76, 0.5);
   --disabled-button-accent-color: #767676;
   --converters-primary-bg-color: rgba(113, 85, 41, 0.7);
@@ -84,7 +86,7 @@ h1 {
 }
 
 .chamfered-corner.disabled {
-
+  background-color: var(--disabled-button-accent-color);
 }
 
 .top-left {
@@ -101,17 +103,25 @@ button {
   font-family: 'Teko', sans-serif;
   background-color: var(--converters-secondary-bg-color);
   border: 3px solid var(--main-accent-color);
+  color: var(--main-accent-color);
   font-size: 25px;
   line-height: 100%;
   padding: 0 8px;
   -webkit-clip-path: polygon(15% 0, 0 30%, 0 100%, 85% 100%, 100% 70%, 100% 0);
   clip-path: polygon(15% 0, 0 30%, 0 100%, 85% 100%, 100% 70%, 100% 0);
+  cursor: pointer;
+}
+
+button:active {
+  color: var(--activated-button-accent-color);
+  background-color: var(--activated-button-bg-color);
 }
 
 button:disabled {
   color: var(--disabled-button-accent-color);
   background-color: var(--disabled-button-bg-color);
   border: 3px solid var(--disabled-button-accent-color);
+  cursor: default;
 }
 
 .result-wrapper {

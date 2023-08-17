@@ -2,8 +2,8 @@ function main() {
   function captureConverterElements() {
     const [binaryDecimalInput, decimalBinaryInput] = captureInputs();
     const [binaryDecimalOutput, decimalBinaryOutput] = captureOutputs();
-    const [binaryDecimalButton, decimalBinaryButton] = captureButtons();
-    return [binaryDecimalInput, decimalBinaryInput, binaryDecimalOutput, decimalBinaryOutput, binaryDecimalButton, decimalBinaryButton];
+    const [binaryDecimalButton, binaryDecimalChamferedCorners, decimalBinaryButton, decimalBinaryChamferedCorners] = captureButtons();
+    return [binaryDecimalInput, decimalBinaryInput, binaryDecimalOutput, decimalBinaryOutput, binaryDecimalButton, binaryDecimalChamferedCorners, decimalBinaryButton, decimalBinaryChamferedCorners];
   }
 
   function resetInputs(binaryDecimalInput, decimalBinaryInput) {
@@ -14,10 +14,13 @@ function main() {
   function resetButtons(binaryDecimalButton, decimalBinaryButton) {
     binaryDecimalButton.setAttribute("disabled", "");
     decimalBinaryButton.setAttribute("disabled", "");
+    document.querySelectorAll(".chamfered-corner").forEach((corner) => {
+      corner.classList.add('disabled');
+    })
   }
 
-  function setEventListenersOnConverter(inputs, outputs, buttons) {
-    detectKeyPress(inputs, buttons);
+  function setEventListenersOnConverter(inputs, outputs, buttons, chamferedButtonsCorners) {
+    detectKeyPress(inputs, buttons, chamferedButtonsCorners);
     placeEventListenersOnButtons(inputs, outputs, buttons);
   }
 
@@ -35,26 +38,40 @@ function main() {
 
   function captureButtons() {
     const binaryDecimalButton = document.querySelector(".btd-convert");
+    const binaryDecimalChamferedCorners = document.querySelectorAll(".btd-corner");
     const decimalBinaryButton = document.querySelector(".dtb-convert");
-    return [binaryDecimalButton, decimalBinaryButton];
+    const decimalBinaryChamferedCorners = document.querySelectorAll(".dtb-corner");
+    return [binaryDecimalButton, binaryDecimalChamferedCorners, decimalBinaryButton, decimalBinaryChamferedCorners];
   }
 
-  function detectKeyPress(inputs, buttons) {
+  function detectKeyPress(inputs, buttons, chamferedButtonsCorners) {
     // Strangely, creating a separate function and asking the event listener to fire it doesn't seem to work.
     // But an anonymous function does.
     inputs.forEach(input => {
       input.addEventListener("keyup", (event) => {
         if (isNaN(parseInt(inputs[0].value))) {
           buttons[0].setAttribute("disabled", "");
+          chamferedButtonsCorners[0].forEach((corner) => {
+            corner.classList.add("disabled");
+          })
         }
         else {
           buttons[0].removeAttribute("disabled");
+          chamferedButtonsCorners[0].forEach((corner) => {
+            corner.classList.remove("disabled");
+          })
         }
         if (isNaN(parseInt(inputs[1].value))) {
           buttons[1].setAttribute("disabled", "");
+          chamferedButtonsCorners[1].forEach((corner) => {
+            corner.classList.add("disabled");
+          })
         }
         else {
           buttons[1].removeAttribute("disabled");
+          chamferedButtonsCorners[1].forEach((corner) => {
+            corner.classList.remove("disabled");
+          })
         }
       });
     });
@@ -303,10 +320,10 @@ function main() {
     scrollingCode.innerText = binaryValue;
   }
 
-  const [binaryDecimalInput, decimalBinaryInput, binaryDecimalOutput, decimalBinaryOutput, binaryDecimalButton, decimalBinaryButton] = captureConverterElements();
+  const [binaryDecimalInput, decimalBinaryInput, binaryDecimalOutput, decimalBinaryOutput, binaryDecimalButton, binaryDecimalChamferedCorners, decimalBinaryButton, decimalBinaryChamferedCorners] = captureConverterElements();
   resetInputs(binaryDecimalInput, decimalBinaryInput);
   resetButtons(binaryDecimalButton, decimalBinaryButton);
-  setEventListenersOnConverter([binaryDecimalInput, decimalBinaryInput], [binaryDecimalOutput, decimalBinaryOutput], [binaryDecimalButton, decimalBinaryButton]);
+  setEventListenersOnConverter([binaryDecimalInput, decimalBinaryInput], [binaryDecimalOutput, decimalBinaryOutput], [binaryDecimalButton, decimalBinaryButton], [binaryDecimalChamferedCorners, decimalBinaryChamferedCorners]);
   animateBackground();
 }
 
