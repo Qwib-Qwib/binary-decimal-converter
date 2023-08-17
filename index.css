@@ -1,8 +1,20 @@
+:root {
+  --main-bg-gradient: linear-gradient(0.25turn, #111111 48%, #455e2d 49.5%, #99D063 50%, #455e2d 50.5%, #111111 52%);
+  --title-bg-color: #715529;
+  --main-accent-color: #fcbd56;
+  --disabled-button-bg-color: rgba(96, 89, 76, 0.5);
+  --disabled-button-accent-color: #767676;
+  --converters-primary-bg-color: rgba(113, 85, 41, 0.7);
+  --converters-secondary-bg-color: rgba(175, 132, 61, 0.5);
+  --scrolling-binary-color: #37e370;
+  --scrolling-decimal-color: #fcbd56;
+}
+
 body {
   height: 100vh;
   overflow: hidden;
-  background: linear-gradient(0.25turn, #111111 48%, #455e2d 49.5%, #99D063 50%, #455e2d 50.5%, #111111 52%);
-  color: #fcbd56;
+  background: var(--main-bg-gradient);
+  color: var(--main-accent-color);
 }
 
 /* The following is necessary for mobile devices and responsive design. The viewport metatag apparently ignores
@@ -45,14 +57,14 @@ h1 {
   position: relative;
   top: 50%;
   z-index: 3;
-  border: 3px solid #fcbd56;
-  background-color: #715529;
+  border: 3px solid var(--main-accent-color);
+  background-color: var(--title-bg-color);
 }
 
 .converters {
-  border: 3px solid #fcbd56;
+  border: 3px solid var(--main-accent-color);
   padding: 8px;
-  background-color: rgba(113, 85, 41, 0.7);
+  background-color: var(--converters-primary-bg-color);
 }
 
 .button-wrapper {
@@ -65,10 +77,14 @@ h1 {
   height: calc(40% + 2px);
   width: 3px;
   transform: rotate(49deg);
-  background-color: #fcbd56;
+  background-color: var(--main-accent-color);
   /* For some reason the top-left corner seems to be transparent without the following line, even though its
   background color is set to be solid. */
   z-index: 3;
+}
+
+.chamfered-corner.disabled {
+
 }
 
 .top-left {
@@ -83,8 +99,8 @@ h1 {
 
 button {
   font-family: 'Teko', sans-serif;
-  background-color: rgba(175, 132, 61, 0.5);
-  border: 3px solid #fcbd56;
+  background-color: var(--converters-secondary-bg-color);
+  border: 3px solid var(--main-accent-color);
   font-size: 25px;
   line-height: 100%;
   padding: 0 8px;
@@ -93,14 +109,14 @@ button {
 }
 
 button:disabled {
-  color: #767676;
-  background-color: rgba(96, 89, 76, 0.5);
-  border: 3px solid #767676;
+  color: var(--disabled-button-accent-color);
+  background-color: var(--disabled-button-bg-color);
+  border: 3px solid var(--disabled-button-accent-color);
 }
 
 .result-wrapper {
   height: 3em;
-  background-color: rgba(175, 132, 61, 0.5);
+  background-color: var(--converters-secondary-bg-color);
   margin-top: 8px;
   padding-left: 8px;
   display: flex;
@@ -168,11 +184,11 @@ button:disabled {
 }
 
 .scrolling-binary {
-  color: #37e370;
+  color: var(--scrolling-binary-color);
 }
 
 .scrolling-decimal {
-  color: #fcbd56;
+  color: var(--scrolling-decimal-color);
 }
 
 spark {
