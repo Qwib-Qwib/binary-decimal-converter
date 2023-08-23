@@ -14,7 +14,7 @@ function main() {
   function resetButtons(binaryDecimalButton, decimalBinaryButton) {
     binaryDecimalButton.setAttribute("disabled", "");
     decimalBinaryButton.setAttribute("disabled", "");
-    document.querySelectorAll(".chamfered-corner").forEach((corner) => {
+    document.querySelectorAll(".chamfered-corner-button").forEach((corner) => {
       corner.classList.add('disabled');
     })
   }
