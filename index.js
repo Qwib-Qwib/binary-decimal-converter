@@ -227,6 +227,8 @@ function main() {
       spark.style.height = `${thickness}px`;
       // Generate a random color in a light yellow palette
       spark.style.background = `hsl(47, 100%, ${Math.random() * 20 + 70}%)`;
+      // Calculate the height of a scrolling code bit to help relocate the sparks on the Y axis.
+      const scrollingCodeHeight = document.querySelector(".scrolling-code").clientHeight;
       // The following generates the position of a spark over several frames.
       // The impulseX bit is used to specify a side and initial emission force for the spark on the X axis. The max
       // distance is the last multiplier.
@@ -267,7 +269,7 @@ function main() {
           // the top to its emission point here. The implication is that the actual origin point used as a reference
           // for all the translations and rotations is at the top of the screen.
           // We offset the particle with half its size to center it around the laser
-          transform: `translate(${length / 2}px, ${y - (thickness / 2)}px) rotate(${frame2angle}deg)`,
+          transform: `translate(${length / 2}px, ${y - (thickness / 2) + (scrollingCodeHeight / 2) }px) rotate(${frame2angle}deg)`,
           opacity: 1
         },
         {
@@ -306,9 +308,13 @@ function main() {
   }
 
   function setScrollingCodeInitialValues() {
-    const scrollingCodesList = document.querySelectorAll(".scrolling-binary");
-    scrollingCodesList.forEach((binaryFragment) => {
+    const scrollingBinariesList = document.querySelectorAll(".scrolling-binary");
+    scrollingBinariesList.forEach((binaryFragment) => {
       setScrollingCodeNewValue(binaryFragment);
+    })
+    const scrollingCodesList = document.querySelectorAll(".scrolling-code");
+    scrollingCodesList.forEach((scrollingCode) => {
+      placeScrollingCodeOutsideScreen(scrollingCode);
     })
   }
 
@@ -318,6 +324,10 @@ function main() {
       binaryValue += Math.round(Math.random());
     }
     scrollingCode.innerText = binaryValue;
+  }
+
+  function placeScrollingCodeOutsideScreen(scrollingCode) {
+    scrollingCode.style.marginLeft = `-${scrollingCode.clientWidth}px`;
   }
 
   const [binaryDecimalInput, decimalBinaryInput, binaryDecimalOutput, decimalBinaryOutput, binaryDecimalButton, binaryDecimalChamferedCorners, decimalBinaryButton, decimalBinaryChamferedCorners] = captureConverterElements();

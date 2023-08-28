@@ -13,9 +13,7 @@ For the particles, I based myself on [an article by Louis Hoebregts](https://css
 All in all, I'm rather satisfied by the end result. It's probably a bit too visually busy for what it is, but it was for the exercise more than anything so I don't really mind.
 
 ## TODO
-- relocate the spark emission points on the Y axis so that it maps better to their assignated div,
 - pause the animation if the tab is unfocused,
-- style the text input fields,
 - randomize the Y position of scrolling code divs for each iteration of the animation,
 - ensure that it's responsive,
 - generate sparks for each removed or added digit in the direction of the change and with slightly different colors to match the color of the code,

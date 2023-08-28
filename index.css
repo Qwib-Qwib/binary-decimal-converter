@@ -183,9 +183,6 @@ button:disabled {
 .scrolling-code {
   overflow: hidden;
   z-index: 1;
-  /* La ligne suivante permet de faire démarrer l'animation en dehors de l'écran, plutôt que de "spawner" le code */
-  /* directement à gauche. */
-  margin-left: -10%;
   font-family: 'Encode Sans', sans-serif;
   font-size: 2em;
   /* Vu que les lignes de code sont des divs de texte, la ligne suivante permet d'empêcher l'utilisateur d'interagir */
@@ -258,11 +255,19 @@ spark {
 }
 
 @keyframes slidein {
-  0% {
-    margin-left: -10%;
-  }
-
   100% {
     margin-left: 100%;
+  }
+}
+
+@media screen and (max-width: 402px) {
+  h1 {
+    font-size: 1.3em;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  h1 {
+    font-size: 1.15em;
   }
 }
