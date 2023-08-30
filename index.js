@@ -135,11 +135,18 @@ function main() {
 
   function animateBackground() {
     setScrollingCodeInitialValues();
+    // Ces valeurs servent à ajuster le moment où les fragments de code passent par le laser suivant la largeur de l'écran.
+    let animationMidpointTiming;
+    if (window.innerWidth < 435) {
+      animationMidpointTiming = 1800;
+    } else {
+      animationMidpointTiming = 2100;
+    }
     document.addEventListener("animationstart", ((event) => {
       if (event.animationName == "slidein") {
-        setTimeout(() => replaceChars(event.target), 2200);
-        setTimeout(() => triggerLaserAnimation(), 2200);
-        setTimeout(() => generateSparks(event.target), 2200);
+        setTimeout(() => replaceChars(event.target), animationMidpointTiming);
+        setTimeout(() => triggerLaserAnimation(), animationMidpointTiming);
+        setTimeout(() => generateSparks(event.target), animationMidpointTiming);
       }
     }));
 
@@ -147,9 +154,9 @@ function main() {
       if (event.animationName == "slidein") {
         setScrollingCodeNewValue(event.target.children[0]);
         event.target.children[1].innerText = "";
-        setTimeout(() => replaceChars(event.target), 2200);
-        setTimeout(() => triggerLaserAnimation(), 2200);
-        setTimeout(() => generateSparks(event.target), 2200);
+        setTimeout(() => replaceChars(event.target), animationMidpointTiming);
+        setTimeout(() => triggerLaserAnimation(), animationMidpointTiming);
+        setTimeout(() => generateSparks(event.target), animationMidpointTiming);
       }
     }));
 
@@ -168,7 +175,16 @@ function main() {
           element.children[1].innerText = num[num.length - 1] + element.children[1].innerText;
           num = num.slice(0, -1);
         }
-        await new Promise(r => setTimeout(r, 50));
+        // Ce passage permet de changer la fréquence de remplacement suivant la taille de l'écran.
+        if (window.innerWidth < 435) {
+          await new Promise(r => setTimeout(r, 125));
+        } else if (window.innerWidth < 885) {
+          await new Promise(r => setTimeout(r, 100));
+        } else if (window.innerWidth < 915) {
+          await new Promise(r => setTimeout(r, 80));
+        } else {
+          await new Promise(r => setTimeout(r, 50));
+        }
       }
     }
 

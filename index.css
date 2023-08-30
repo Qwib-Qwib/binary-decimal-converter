@@ -181,7 +181,6 @@ button:disabled {
 }
 
 .scrolling-code {
-  overflow: hidden;
   z-index: 1;
   font-family: 'Encode Sans', sans-serif;
   font-size: 2em;
